@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/signup.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>SIGN UP</title>
+</head>
+<body>
+    <div class="signup-form">
+        <img src="./images/user.png">
+        <h1>Sign Up Now</h1>
+    <form id= "signupfrom" onsubmit="signup();return false;">
+    
+        <input type="E-mail" id="email" class="input-box" placeholder="Your E-mail">
+        <br><br>
+     
+            <input type="Password" id="password" class="input-box" placeholder="Your Password">   
+            <br><br>
+
+            <input type="Password" id="retypepassword" class="input-box" placeholder="Re-Type Your Password">   
+            <br><br>
+
+          <input type="submit" value="SIGN UP" class="button" id="btn">
+           
+    
+    </form>
+    </div>
+<script>
+ 
+ async function signup (){
+
+    if(document.getElementById("email").value !== "" && document.getElementById("password").value != "" && 
+    document.getElementById('retypepassword').value === document.getElementById("password").value )
+    {
+
+    let data = {
+        email : document.getElementById("email").value,
+        password : document.getElementById("password").value
+
+ }
+
+ let signupData = await fetch("http://localhost:3000/sign-up",{
+
+ method : "POST",
+ body : JSON.stringify(data),
+ headers : {
+     "Content-Type" : "application/json"
+ }
+
+ })
+
+ let signupRes =await signupData.json()
+
+ if(signupRes.message == 'done')
+
+ document.getElementById('signupfrom').reset()
+ 
+ alert('Registered Successfully')
+
+}
+else 
+{
+
+    document.getElementById('signupfrom').reset()
+
+   alert('Enter valid Email and Password')
+}
+
+}
+
+</script>
+
+</body>
+</html>

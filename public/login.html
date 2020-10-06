@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/login.css">
+    <title>LOGIN IN</title>
+</head>
+<body>
+   <div class="loginform">
+<h1>Login In</h1>
+<form id="login" onsubmit="login();return false;" >
+
+    <input type="E-mail" id="email" class="input-box" placeholder="Your E-mail">
+    <br><br> 
+        <input type="Password" id="password" class="input-box" placeholder="Your Password">   
+        <br><br>
+        <input type="submit" value="LOGIN" class="button" id="btn">
+</form>
+   </div> 
+   <script>
+  async function login() {
+
+
+    let data = {
+        email : document.getElementById("email").value,
+        password : document.getElementById("password").value
+
+ }
+
+ let loginData = await fetch("http://localhost:3000/login",{
+
+method : "POST",
+body : JSON.stringify(data),
+headers : {
+    "Content-Type" : "application/json"
+}
+
+})
+
+let loginRes =await loginData.json()
+
+
+if(loginRes.message == "success"){
+
+    document.getElementById('login').reset()
+ 
+
+ var a = document.createElement('A')
+ var t = document.createTextNode('Click to enter URL SHORTENER')
+  a.setAttribute('href','http://localhost:3000/home')
+  a.appendChild(t)
+  document.body.appendChild(a)
+}
+
+else if (loginRes.message == "username and password not wrong")
+
+{
+    document.getElementById('login').reset()
+ 
+  alert('Password Incorrect')
+
+}
+else if (loginRes.message == "user not found"){
+
+    document.getElementById('login').reset()
+ 
+  alert('Email Incorrect')
+}
+
+  }
+
+   </script>
+</body>
+</html>
